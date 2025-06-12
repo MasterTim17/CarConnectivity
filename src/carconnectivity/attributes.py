@@ -11,7 +11,7 @@ from datetime import datetime, timezone, timedelta
 
 from pytimeparse import parse
 
-from carconnectivity.units import GenericUnit, Length, Level, Temperature, Speed, Power, Current, Energy
+from carconnectivity.units import GenericUnit, Length, Level, Temperature, Speed, Power, Current, Energy, DurationMin
 from carconnectivity.observable import Observable
 from carconnectivity.json_util import ExtendedWithNullEncoder
 
@@ -788,6 +788,14 @@ class DurationAttribute(GenericAttribute[timedelta, None]):
                 raise ValueError(f'Value {new_value}{self.unit.value if self.unit is not None else ""} '
                                  f'is above maximum {self.maximum}{self.unit.value if self.unit is not None else ""}')
         GenericAttribute.value.fset(self, new_value)
+
+class DurationMinAttribute(GenericAttribute[DurationMin, None]):
+    """
+    A class used to represent a Duration.
+    """
+    def __init__(self, name: str, parent: GenericObject, value: Optional[DurationMin] = None, unit:  DurationMin = DurationMin.MIN,
+                 maximum: Optional[DurationMin] = None, minimum: Optional[DurationMin] = None, tags: Optional[Set[str]] = None) -> None:
+        super().__init__(name=name, parent=parent, value=value, value_type=DurationMin, unit=unit, tags=tags)
 
 
 class RangeAttribute(FloatAttribute[Length]):
